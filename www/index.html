@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	 <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"> 
+	<title>bosch</title>
+
+	<link rel="manifest" href="manifest.json">
+
+	<!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+	<link rel="stylesheet" href="css/normalize.css">
+	<link href="lib/ionic/css/ionic.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="lib/swiper/swiper.min.css">
+
+	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+	<script src="lib/jquery.min.js"></script>
+	<script src="lib/swiper/swiper.jquery.min.js"></script>
+
+	<!-- ionic/angularjs js -->
+	<script src="lib/ionic/js/ionic.bundle.min.js"></script>
+
+	<!-- your app's js -->
+	<script src="js/myapp.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/services.js"></script>
+
+	<!-- cordova script (this will be a 404 during development) -->
+	<!-- <script src="cordova.js"></script> -->
+
+
+<!-- 
+	/**
+	* [以iPhone6的设计稿为例js动态设置文档 rem 值]
+	* @param  {[type]} currClientWidth [当前客户端的宽度]
+	* @param  {[type]} fontValue [计算后的 fontvalue值]
+	* @return {[type]}     [description]
+	*/
+-->
+	<!-- <script>
+		var currClientWidth, fontValue,originWidth;
+		//originWidth用来设置设计稿原型的屏幕宽度（这里是以 Iphone 6为原型的设计稿）
+		originWidth=375;
+		__resize();
+
+		//注册 resize事件
+		window.addEventListener('resize', __resize, false);
+
+		function __resize() {
+			currClientWidth = document.documentElement.clientWidth;
+			//这里是设置屏幕的最大和最小值时候给一个默认值
+			if (currClientWidth > 640) currClientWidth = 640;
+			if (currClientWidth < 320) currClientWidth = 320;
+			//
+			fontValue = ((62.5 * currClientWidth) /originWidth).toFixed(2);
+			document.documentElement.style.fontSize = fontValue + '%';
+		}
+	</script> -->
+	
+
+	<!-- <script>
+		var dpr, rem, scale;
+		var docEl = document.documentElement;
+		var fontEl = document.createElement('style');
+		var metaEl = document.querySelector('meta[name="viewport"]');
+		console.log(metaEl)
+		dpr = window.devicePixelRatio || 1;
+		scale = 1 / dpr;
+		rem = docEl.clientWidth * dpr / 10;
+		console.log(dpr,scale,docEl.clientWidth,rem)
+		// 设置viewport，进行缩放，达到高清效果
+		metaEl.setAttribute('content', 'width=' + dpr * docEl.clientWidth + ',initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale + ',user-scalable=no');
+		// 设置data-dpr属性，留作的css hack之用
+		docEl.setAttribute('data-dpr', dpr);
+		// 动态写入样式
+		docEl.firstElementChild.appendChild(fontEl);
+		fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}';
+		// 给js调用的，某一dpr下rem和px之间的转换函数
+		window.rem2px = function(v) {
+			v = parseFloat(v);
+			return v * rem;
+		};
+		window.px2rem = function(v) {
+			v = parseFloat(v);
+			return v / rem;
+		};
+		window.dpr = dpr;
+		window.rem = rem;
+</script> -->
+
+<script>
+	(function(win,doc){
+		var timer = null,
+			html = doc.documentElement,
+			baseWidth = html.dataset.basewidth*1 || 750,
+			metaEl = document.querySelector('meta[name="viewport"]'),
+			event = 'onorientationchange' in win ? 'onorientationchange' : 'resize';
+
+		if(!metaEl){
+			metaEl = document.createElement('meta');
+			metaEl.setAttribute('name','viewport');
+			metaEl.setAttribute('content','initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0');
+			html.firstElementChild.appendChild(metaEl);
+		}
+
+		function layoutCalc(){
+			var width = html.getBoundingClientRect().width,
+				ratio = width / baseWidth * 100,
+				devicePixelRatio = window.devicePixelRatio,
+				rem = ratio < 100 ?  ratio < 50 ? 50 : ratio : 100;
+
+				// console.log(width,ratio,devicePixelRatio,rem);
+
+			if(!/\.\d+/.test(devicePixelRatio.toString())){
+				html.dataset.dpr = devicePixelRatio;
+			}
+
+			html.style.fontSize = rem + 'px';
+		}
+
+		win.addEventListener(event,function(){
+			clearTimeout(timer);
+			timer = setTimeout(layoutCalc,300);
+		},false);
+
+		win.addEventListener('pageShow',function(e){
+			if(e.persisted){
+				clearTimeout(timer);
+				timer = setTimeout(layoutCalc,300);
+			}
+		},false);
+
+		layoutCalc();
+
+	}(window,document));
+</script>
+</head>
+<body ng-app="starter">
+	<ion-nav-view></ion-nav-view>
+
+	<!-- <shadow-mask></shadow-mask> -->
+	
+	<div class="sign-modal" style="display:none;">
+        <img class="signed-prompt-img" src="img/signed-prompt@2x.png">
+        <div class="signed-prompt-txt">已签到</div>
+    </div>
+</body>
+</html>

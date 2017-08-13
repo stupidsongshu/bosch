@@ -1,0 +1,310 @@
+
+---------------------------------------------------------
+---- General Development Environment Setup and Configuration
+---------------------------------------------------------
+
+-- Download and install JDK 8 from: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+-- Download and install GIT from: https://git-scm.com/downloads
+
+-- Refer to: https://ionicframework.com/docs/v1/getting-started/
+
+-- Install Node.js version 6.X LTS
+- Download from: https://nodejs.org/en/download/
+
+-- Install the latest Cordova and Ionic command-line tools in Terminal
+$ sudo npm install -g cordova@6.5.0 ionic@2.2.3
+
+-- Install required tools - Android
+- Refer to: http://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html
+  - Install JDK 8 (skip if already installed)
+  - Install Android Studio
+    - After installation, run the Android Studio once which will initiate the Setup Wizard to download and install the necessary SDK and packages.
+      - Use "Standard" setup type.
+      - Take note of the Android SDK installation folder: /Users/hOOnbOOn/Library/Android/sdk
+    - Set OS environment variables:
+      - JAVA_HOME: Local JDK installation. (skip if already set)
+      - ANDROID_HOME: /Users/hOOnbOOn/Library/Android/sdk
+      - PATH: add in $ANDROID_HOME/tools, $ANDROID_HOME/tools/bin, $ANDROID_HOME/platform-tools
+    - Create an Android Virtual Device (AVD)
+      - Refer to: https://developer.android.com/studio/run/managing-avds.html
+        - Using the Android Studio, create a dummy project first in order to to be able to access the Android Studio > Tools > Android > AVD Manager.
+        
+-- TODO: Install required tools - iOS 
+- Refer to: http://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html
+  - Install Xcode:
+    - Select the Xcode version that is supported by the the Mac OS X version fo the development machine:
+      - Refer to here (https://en.wikipedia.org/wiki/Xcode#Version_comparison_table)).
+    - Download latest version of Xcode from here (https://itunes.apple.com/us/app/xcode/id497799835?mt=12).
+    - Search and download previous versions of Xcode from here (https://developer.apple.com/downloads/index.action). 
+    - Choose Xcode 8.2.1 for Mac OS X El Capitan 10.11.6.
+    - Note: To submit apps to the Apple App Store℠ requires the latest versions of the Apple tools.
+  - Enable command-line tools for Cordova to run:
+  
+$ xcode-select --install 
+xcode-select: error: command line tools are already installed, use "Software Update" to install updates
+
+$ npm install -g ios-sim
+$ npm install -g ios-deploy
+
+  - Check available simulators:
+  
+$ ios-sim showdevicetypes
+
+  - Download and install new simulators for additional iOS SDK versions or platforms using the Xcode app (need to restart for newly installed simulators to be available):
+    - Xcode > Preferences... > Components
+
+  - Install CocoaPods (refer to https://cocoapods.org/): 
+  
+$ sudo gem install cocoapods
+$ pod setup  
+  
+
+
+
+---------------------------------------------------------
+---- Playground
+---------------------------------------------------------
+
+-- Create and configure new ionic 1 project under Git folder
+$ cd /Users/hOOnbOOn/git
+$ ionic start test-ionic1-02 tabs --v1
+
+-- All subsequent commands to run from new project folder
+$ cd test-ionic1-02
+$ ionic platform
+$ ionic platform add android@6.1.0 
+$ ionic platform add ios@4.3.1
+
+-- Test on web browser
+$ ionic serve
+
+-- Test on android emulator
+$ ionic emulate android
+
+-- Test on ios emulator
+$ ionic emulate ios --target="iPhone-6-Plus, 10.2"
+$ ionic emulate ios --target="iPhone-6-Plus, 8.4"
+
+-- Add new project into GitHub
+  - Refer to https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
+
+  - Create new GitHub repo: https://github.com/hoonboon/test-ionic1-02.git
+  
+$ git init
+$ git add .
+$ git rm -f -- *.DS_Store
+$ git commit -m "Init"
+$ git remote add origin https://github.com/hoonboon/test-ionic1-02.git
+$ git remote -v
+$ git push -u origin master
+
+  - Paste local repository folder into Eclipse Git Repositories.
+  
+  - Import only new project root into Eclipse with "Detect and configure project nature" UNCHECKED.
+  
+
+-- Restore fresh project from GitHub
+
+- Refer to: https://forum.ionicframework.com/t/how-to-clone-ionic-project-from-git-which-i-already-have-created-before/63102
+
+$ npm install
+
+$ ionic platform add android@6.1.0 
+
+$ ionic platform add ios@4.3.1
+
+$ ionic resources 
+
+$ ionic state reset
+
+$ chmod +x hooks/after_prepare/copy_resource_files.js
+
+$ ionic build android 
+
+$ ionic build ios 
+
+$ ionic serve
+
+$ ionic emulate android
+
+$ ionic emulate ios --target="iPhone-6-Plus, 10.2"
+
+
+
+Trouble-shooting
+
+- Possible Error #1: 
+
+Failed to install 'cordova-plugin-console':CordovaError: Could not find gradle wrapper within Android SDK. Might need to update your Android SDK.
+Looked here: /Users/hOOnbOOn/Library/Android/sdk/tools/templates/gradle/wrapper
+
+  - Solution: Refer to solution by "DaCookie" https://forum.ionicframework.com/t/error-could-not-find-gradle-wrapper-within-android-sdk-might-need-to-update-yo-ur-android-sdk/22056/9
+
+
+- Possible Error #2:
+
+Restoring Plugins
+
+...
+cordova plugin add phonegap-plugin-push  --variable SENDER_ID=167400319609
+Caught exception:
+ undefined 
+
+Mind letting us know? https://github.com/driftyco/ionic-cli/issues
+
+  
+  - Solution:
+    - Open the project file "package.json".
+
+    - Locate and remove the line [ "phonegap-plugin-push  --variable SENDER_ID=167400319609", ] from file "package.json".
+
+    - Execute the following commands to see the actual error messages:
+
+$ ionic state reset
+
+$ ionic plugin add phonegap-plugin-push --variable SENDER_ID="54566305933"
+
+Fetching plugin "phonegap-plugin-push@1.10.3" via npm
+
+Installing "phonegap-plugin-push" for android
+... 
+
+BUILD SUCCESSFUL
+...
+
+Installing "phonegap-plugin-push" for ios
+
+Failed to install 'phonegap-plugin-push':undefined
+
+Error: CocoaPods was not found. Please install version 1.0.1 or greater from https://cocoapods.org/
+
+    - To develop and test for android only, the plug-in is successfully added successfully.
+    - TODO: To develop and test for ios, please proceed to install CocoaPods as per the error message and retry.
+    
+$ sudo gem install cocoapods
+$ pod setup
+
+
+
+- Possible Error #3:
+  
+Running command: /Users/hOOnbOOn/git/epaper/hooks/after_prepare/copy_resource_files.js /Users/hOOnbOOn/git/epaper
+
+Error: spawn EACCES
+    ...
+
+  - Solution: 
+    - Refer to https://forum.ionicframework.com/t/failure-while-building-the-project-environment/40376/5
+    
+    - Execute the following command to assign the required execution right:
+    
+$ chmod +x hooks/after_prepare/copy_resource_files.js
+
+
+
+-- check package dependencies
+$ npm list --depth=0
+
+-- View package versions
+$ npm view cordova@'>6.0.0' name
+$ npm view ionic@'>2.0.0' name
+
+-- Uninstall previous packages and clear all cache
+$ sudo npm uninstall -g cordova ionic
+$ npm config get cache
+$ sudo npm cache clear
+$ sudo npm install npm@latest -g
+
+
+-- To find out what are the simulator images available you can use to list them
+$ cordova emulate ios --list
+$ platforms/ios/cordova/lib/list-emulator-images
+
+
+
+
+
+
+---------------------------------------------------------
+---- Setup fourmi/epaper
+---------------------------------------------------------
+
+Open a Terminal.
+
+Change active directory to parent folder of the new project (replace [Folder Name] with the intended folder name):
+$ cd /Users/hOOnbOOn/git 
+
+Clone the GitHub project to local directory (replace [Branch Name] with the intended branch name, [Directory] with the intended directory name): 
+$ git clone --branch SHE-6-Setup-epaper-ios https://github.com/fourmisolutions/epaper.git epaper-she6
+
+Change activate directory to newly created project folder:
+$ cd epaper-she6
+
+Configure the project dependencies into new project folder (this will create the "node_modules" folder):
+$ npm install 
+
+Explicitly add the required platforms to the project folder:
+$ ionic platform add android@6.1.0 
+Trouble-shooting: Possible Error #4
+Error: Source path does not exist: resources\android\icon\drawable-hdpi-icon.png
+
+$ ionic platform add ios@4.3.1
+Trouble-shooting: Possible Error #5
+Error: Source path does not exist: resources/ios/icon/icon-40.png
+
+Copy the required resources into platforms folders:
+$ ionic resources
+
+Configure the platform and plugins into new project folder (this will create the "platform" and "plugins" folders):
+$ ionic state reset
+Trouble-shooting: Possible Error #2
+
+Build the project for android:
+$ ionic build android 
+Trouble-shooting: Possible Error #3
+
+To launch and view the application on an android emulator or connected android phone:
+$ ionic run android
+
+Build the project for iOS:
+$ ionic build ios
+
+To launch and view the application on an iOS emulator:
+$ ionic run ios
+
+To launch and view the application on a browser for development:
+$ ionic serve
+
+
+---------------------------------------------------------
+-- Develop and use cordova plugin within ionic project
+---------------------------------------------------------
+
+$ ionic plugin list
+
+$ ionic plugin rm com-hoonboon-plugins-echo
+
+$ ionic plugin add https://github.com/hoonboon/demo-cordova-plugin-01#master --save
+
+$ ionic plugin rm com.comscoreplugin
+
+$ ionic plugin add https://github.com/fourmisolutions/cordova-comscore-plugin#master --save
+
+
+-- allow capturing of http traffic for testing on comScore plugin using Charles Proxy 
+$ emulator -avd Nexus_5X_API_24 -http-proxy 192.168.1.78:8888
+
+
+-- remove initial plugin from GitHub and add from local development folder 
+$ ionic plugin list
+
+$ ionic plugin rm com-hoonboon-plugins-echo
+
+$ ionic plugin add /Users/hOOnbOOn/git/demo-cordova-plugin-01
+
+$ ionic plugin rm com.comscoreplugin
+
+$ ionic plugin add /Users/hOOnbOOn/git/cordova-comscore-plugin
+
+

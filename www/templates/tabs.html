@@ -1,0 +1,20 @@
+<ion-tabs class="tabs-icon-top tabs-standard tabs-color-active-assertive"  ng-class="{'tabs-item-hide': hideTabs}">
+    <ion-tab title="首页" icon-off="tab-ico11" icon-on="tab-ico1" ng-click="goHome()">
+        <ion-nav-view name="tab-home"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="分类" icon-off="tab-ico21" icon-on="tab-ico2" ng-click="goSort()">
+        <ion-nav-view name="tab-sort"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="扫一扫" icon-off="tab-ico31" icon-on="tab-ico3" ng-click="goScanCode()">
+        <ion-nav-view name="tab-scancode"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="购物车" icon-off="tab-ico41" icon-on="tab-ico4" ng-click="goCart()">
+        <ion-nav-view name="tab-cart"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="我的" icon-off="tab-ico51" icon-on="tab-ico5" ng-click="goCenter()">
+        <ion-nav-view name="tab-center"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>

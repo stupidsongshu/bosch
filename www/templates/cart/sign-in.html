@@ -1,0 +1,96 @@
+<ion-header-bar align-title="center" class='themebgcolor header-bar'>
+    <a class="button icon-left ion-chevron-left button-clear back-arrow" ng-click="back()"></a>
+    <div class="header-m">签到</div>
+</ion-header-bar>
+
+<ion-content>
+    <section class="sign-in-time">
+        <div class="row">
+            <div class="col txt-m">
+                <div class="sign-in-date">8月1号</div>
+                <div class="line-circle">
+                    <div class="circle"></div>
+                    <div class="signed"></div>
+                </div>
+                <div>+10</div>
+            </div>
+            <div class="col txt-m">
+                <div class="sign-in-date">8月2号</div>
+                <div class="line-circle">
+                    <div class="circle"></div>
+                    <div class="not-signed"></div>
+                </div>
+                <div>+0</div>
+            </div>
+            <div class="col txt-m">
+                <div class="sign-in-date">今天</div>
+                <div class="line-circle" ng-click="signIn()">
+                    <div class="circle-today">
+                        <div><img src="img/sign-in-icon@2x.png" alt=""></div>
+                        <div class="themecolor" style="font-size:0.2rem;">已签到</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col txt-m">
+                <div class="sign-in-date">8月4号</div>
+                <div class="line-circle">
+                    <div class="circle"></div>
+                </div>
+                <div>+10</div>
+            </div>
+            <div class="col txt-m">
+                <div class="sign-in-date">8月5号</div>
+                <div class="line-circle">
+                    <div class="circle"></div>
+                </div>
+                <div>+10</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="my-integration container themecolor clearfix">
+        <div class="my-integration-l pull-left">
+            <img class="integration-icon" src="img/integration-icon@2x.png" alt="">我的积分
+        </div>
+        <div class="pull-right">5000积分</div>
+    </section>
+
+    <section class="sign-gift">
+        <div class="sign-gift-title container themecolor">签到赢礼品</div>
+
+        <div class="integration-coupon-wrapper container">
+            <div class="integration-coupon-item pull-left">
+                <div class="integration-coupon-bg">
+                    <div class="integration-coupon-num">￥500</div>
+                    <div class="integration-coupon-name">积分抵用券</div>
+
+                    <div class="integration-coupon-time">有效期至:2017/7/9</div>
+                </div>
+
+                <div class="integration-coupon-description color333">连续签到三天</div>
+            </div>
+
+            <div class="integration-coupon-item pull-left">
+                <div class="integration-coupon-bg">
+                    <div class="integration-coupon-num">￥500</div>
+                    <div class="integration-coupon-name">积分抵用券</div>
+
+                    <div class="integration-coupon-time">有效期至:2017/7/9</div>
+                </div>
+
+                <div class="integration-coupon-description color333">连续签到三天</div>
+            </div>
+
+            <div class="integration-coupon-item pull-left">
+                <div class="integration-coupon-bg">
+                    <div class="integration-coupon-num">￥500</div>
+                    <div class="integration-coupon-name">积分抵用券</div>
+
+                    <div class="integration-coupon-time">有效期至:2017/7/9</div>
+                </div>
+
+                <div class="integration-coupon-description color333">连续签到三天</div>
+            </div>
+        </div>
+    </section>
+</ion-content>
